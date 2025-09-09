@@ -248,7 +248,6 @@ def _messages_to_prompt(messages: List[dict]) -> str:
 
 def _ollama_generate(
     prompt: str,
-    model_name: str,
     temperature: float = 0.1,
     num_ctx: int = NUM_CTX,
     num_predict: int = NUM_PREDICT,
