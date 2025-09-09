@@ -253,8 +253,9 @@ def _ollama_generate(
     num_predict: int = NUM_PREDICT,
     timeout_s: int = TIMEOUT_S,
 ) -> str:
+    # Use the single default model only
     payload = {
-        "model": model_name or DEFAULT_MODEL,
+        "model": DEFAULT_MODEL,
         "prompt": prompt,
         "stream": False,
         "options": {
