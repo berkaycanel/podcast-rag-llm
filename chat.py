@@ -246,18 +246,22 @@ def _messages_to_prompt(messages: List[dict]) -> str:
     lines.append("[ASSISTANT]\n")
     return "\n".join(lines)
 
-def _ollama_generate(prompt: str, temperature=0.1, model_name: str, 
-                     num_ctx=NUM_CTX, num_predict=NUM_PREDICT, timeout_s=TIMEOUT_S) -> str:
+def _ollama_generate(
+    prompt: str,
+    model_name: str,
+    temperature: float = 0.1,
+    num_ctx: int = NUM_CTX,
+    num_predict: int = NUM_PREDICT,
+    timeout_s: int = TIMEOUT_S,
+) -> str:
     payload = {
-        "model": DEFAULT_MODEL,
+        "model": model_name or DEFAULT_MODEL,
         "prompt": prompt,
         "stream": False,
         "options": {
             "temperature": temperature,
             "num_ctx": num_ctx,
             "num_predict": num_predict,
-            "num_thread": 4,    
-            "num_keep": 64
         },
     }
     try:
