@@ -24,9 +24,9 @@ DEFAULT_MODEL = os.environ.get("LLM_NAME", "qwen2.5:14b-instruct-q4_K_M")
 
 MAX_CHARS_PER_CHUNK = 900
 MAX_CHUNKS   = 25
-NUM_CTX      = 4096
-NUM_PREDICT  = 512
-TIMEOUT_S    = 600
+NUM_CTX      = 2048
+NUM_PREDICT  = 256
+TIMEOUT_S    = 1000
 
 SYSTEM = """You are a precise bilingual (DE/EN) podcast research assistant.
 RULES:
@@ -246,7 +246,7 @@ def _messages_to_prompt(messages: List[dict]) -> str:
     lines.append("[ASSISTANT]\n")
     return "\n".join(lines)
 
-def _ollama_generate(prompt: str, temperature=0.0,
+def _ollama_generate(prompt: str, temperature=0.1, model_name: str, 
                      num_ctx=NUM_CTX, num_predict=NUM_PREDICT, timeout_s=TIMEOUT_S) -> str:
     payload = {
         "model": DEFAULT_MODEL,
@@ -256,6 +256,8 @@ def _ollama_generate(prompt: str, temperature=0.0,
             "temperature": temperature,
             "num_ctx": num_ctx,
             "num_predict": num_predict,
+            "num_thread": 4,    
+            "num_keep": 64
         },
     }
     try:
